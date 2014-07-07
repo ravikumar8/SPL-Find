@@ -31,7 +31,7 @@ abstract class Operations	{
 		}
 
 		$limit 		=	$this->_limit();
-		if( ! empty( $limit[0] ) && ! empty( $limit[1] ) )	{			
+		if( 2 == count( $limit ) )	{	
 			$iterator 	= 	new \LimitIterator($iterator, $limit[0], $limit[1] );
 		}
 
