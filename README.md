@@ -15,11 +15,9 @@ This package provides specialized Iterator classes for finding files and directo
 		echo '<pre> ' , $key . ' <br> ' , print_r($file, 1), '</pre>';
 	}
 ```
-Methods
+### Methods
 
 It uses template and fluent design pattern. 
-
-### Methods
 
 1. extension
 2. sort
@@ -31,8 +29,8 @@ This is used to filter the files on the basis of extensions of the file.
 	$files = $find->extension(['jpg'])->in( $path );	
 ```
 #### sort
-This is used to sort the files.
-const SORT_BY_NAME		=	1
+This is used to sort the files. <br>
+const SORT_BY_NAME		=	1 <br>
 const SORT_BY_NAT_NAME 	= 	2
 ```
 	$files = $find->sort( 2 )->in( $path );	
