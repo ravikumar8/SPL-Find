@@ -9,6 +9,11 @@ abstract class Operations	{
 	protected abstract function _sort();
 	protected abstract function _limit();
 
+	/**
+	 * in denotes folder path
+	 * @param  string $path
+	 * @return mixed
+	 */
 	public function in( $path )	{
 
 		$path		=	realpath( $path ); 
@@ -30,7 +35,7 @@ abstract class Operations	{
 			$iterator 	=	$iterator->getIterator();
 		}
 
-		$limit 		=	$this->_limit();
+		$limit 		=	array_filter( $this->_limit() );		
 		if( 2 == count( $limit ) )	{	
 			$iterator 	= 	new \LimitIterator($iterator, $limit[0], $limit[1] );
 		}
