@@ -8,5 +8,5 @@ $find = new Find;
 $files = $find->in( $path );
 
 foreach( $files as $key => $file) {
-	echo '<pre> ' , $key . ' <br> ' , print_r($file, 1), '</pre>';
+	echo '<pre> ' , $key . ' <br> ' , print_r( $file, 1 ), '</pre>';
 }

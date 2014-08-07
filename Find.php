@@ -2,6 +2,7 @@
 
 include_once 'Iterators\ExtensionIterator.php';
 include_once 'Iterators\SortingIterator.php';
+include_once 'Iterators\FileTypeIterator.php';
 
 abstract class Operations	{
 
@@ -18,13 +19,15 @@ abstract class Operations	{
 
 		$path		=	realpath( $path ); 
 
-		$flags		=	\FilesystemIterator::FOLLOW_SYMLINKS | 
-						\FilesystemIterator::CURRENT_AS_FILEINFO | 
-						\FilesystemIterator::SKIP_DOTS;
+		$flags		=	\FilesystemIterator::SKIP_DOTS;
 
 		$iterator 	=	new \RecursiveDirectoryIterator( $path, $flags );
 
-		$iterator 	=	new \RecursiveIteratorIterator( $iterator );
+		$iterator 	=	new \RecursiveIteratorIterator( $iterator, \RecursiveIteratorIterator::SELF_FIRST );
+
+		if( $this->_type() )	{
+			$iterator 	= 	new \FileTypeIterator($iterator, $this->_type() );
+		}
 
 		if( ! empty( $this->_extension() ) )	{
 			$iterator 	= 	new \ExtensionIterator($iterator, $this->_extension() );
@@ -47,10 +50,15 @@ abstract class Operations	{
 class Find extends Operations {
 
 	private $extensions 	=	[];
+	private $type			=	0;
 	private $method			=	null;
 	private $offset			=	null;
 	private $limit			=	null;
 	
+	protected function _type()	{
+		return $this->type;
+	}
+
 	protected function _extension()	{
 		return $this->extensions;
 	}
@@ -71,6 +79,54 @@ class Find extends Operations {
 
 	public function sort($method)	{
 		$this->method 	=	$method;
+
+		return $this;
+	}
+
+	public function sortByName()	{
+		$this->method 	=	SortingIterator::SORT_BY_NAME;
+
+		return $this;
+	}
+
+	public function sortByNaturalName()	{
+		$this->method 	=	SortingIterator::SORT_BY_NAT_NAME;
+
+		return $this;
+	}
+	
+	public function sortByType()	{
+		$this->method 	=	SortingIterator::SORT_BY_TYPE;
+
+		return $this;
+	}
+
+	public function sortByAccessedTime()	{
+		$this->method 	=	SortingIterator::SORT_BY_ACCESSED_TIME;
+
+		return $this;
+	}
+
+	public function sortByChangedTime()	{
+		$this->method 	=	SortingIterator::SORT_BY_CHANGED_TIME;
+
+		return $this;
+	}
+
+	public function sortByModifiedTime()	{
+		$this->method 	=	SortingIterator::SORT_BY_MODIFIED_TIME;
+
+		return $this;
+	}
+
+	public function onlyFiles()	{
+		$this->type 	=	FileTypeIterator::ONLY_FILES;
+
+		return $this;
+	}
+
+	public function onlyDirectories()	{
+		$this->type 	=	FileTypeIterator::ONLY_DIRECTORIES;
 
 		return $this;
 	}
