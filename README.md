@@ -30,6 +30,8 @@ It uses template and fluent design pattern.
 8. sortByModifiedTime
 9. onlyFiles
 10. onlyDirectories
+11. depth
+12. size
 
 #### extension
 This is used to filter the files on the basis of extensions of the file.
@@ -87,6 +89,16 @@ Filter only files
 Filter only directories
 ```
 	$files = $find->onlyDirectories()->in( $path );	
+```
+#### depth
+Filter files by depth level
+```
+	$files = $find->depth(0)->in( $path );	
+```
+#### size
+Filter files by size
+```
+	$files = $find->size('>50m')->in( $path );	
 ```
 
 ### License ###
